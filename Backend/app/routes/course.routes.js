@@ -10,5 +10,9 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/courses", [authJwt.verifyToken], courseController.allCourses);
+  app.get(
+    "/api/courses",
+    [authJwt.verifyToken, authJwt.isManager],
+    courseController.allCourses
+  );
 };
