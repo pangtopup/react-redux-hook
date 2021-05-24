@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import auth from "./auth";
-import userProfile from "./user-profile"
+import userProfile from "./user-profile";
+import course from "./course"
 
 const appReducer = combineReducers({
   auth,
-  userProfile
+  userProfile,
+  course
 })
 
 const rootReducer = (state, action) => {

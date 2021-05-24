@@ -2,6 +2,7 @@ import React from "react";
 import ListMenu from "../../../pages/shared/listMenu";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from "@material-ui/icons/Settings";
 import Filter1Icon from "@material-ui/icons/Filter1";
 import Filter2Icon from "@material-ui/icons/Filter2";
@@ -34,6 +35,12 @@ const AdminMenu = () => {
           listKey:"dashboard3",
         },
       ],
+    },
+    {
+      listItemIcon: <PeopleIcon />,
+      listItemText: "Employees",
+      listLink: "/admin/employees",
+      listKey:"employees",
     },
     {
       listItemIcon: <SettingsIcon />,

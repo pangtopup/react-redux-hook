@@ -2,6 +2,7 @@ const db = require("../models");
 const Users = db.users;
 
 exports.userProfile = (req, res) => {
+  console.log(Users)
     try {
       let result = Users.find((user) => user.id === req.params.id);
   

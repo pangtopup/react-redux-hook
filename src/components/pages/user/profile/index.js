@@ -14,7 +14,7 @@ import AlternateEmailOutlinedIcon from "@material-ui/icons/AlternateEmailOutline
 import PhoneIphoneOutlinedIcon from "@material-ui/icons/PhoneIphoneOutlined";
 import PersonPinCircleOutlinedIcon from "@material-ui/icons/PersonPinCircleOutlined";
 
-import * as UserAction from "../../../../actions/user";
+import { getUserProfile } from "../../../../actions/user";
 import Utils from "../../../../utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -122,7 +122,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (currentUser) {
-      dispatch(UserAction.getUserProfile(currentUser.id));
+      dispatch(getUserProfile(currentUser.id));
     }
   }, [currentUser]);
 
@@ -224,7 +224,7 @@ const ProfilePage = () => {
               <div className={classes.innerFollow}>
                 <div className={classes.follow}>
                   <Typography align="center" className={classes.followCount}>
-                  {Utils.numberWithCommas(userProfile.follower)}
+                    {Utils.numberWithCommas(userProfile.follower)}
                   </Typography>
                   <Typography
                     align="center"
@@ -241,7 +241,7 @@ const ProfilePage = () => {
                 />
                 <div className={classes.follow}>
                   <Typography align="center" className={classes.followCount}>
-                  {Utils.numberWithCommas(userProfile.following)}
+                    {Utils.numberWithCommas(userProfile.following)}
                   </Typography>
                   <Typography
                     align="center"

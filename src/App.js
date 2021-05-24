@@ -75,6 +75,7 @@ const DrawerContainer = ({ open }) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isManager, setIsManager] = useState(false);
+  
   useEffect(() => {
     if (currentUser) {
       setIsAdmin(currentUser.roles.includes("ROLE_ADMIN"));

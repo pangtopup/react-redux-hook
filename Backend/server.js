@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/image/profile', express.static('./app/image/profile'));
+app.use('/image', express.static('./app/image'));
 
 // simple route
 app.get("/", (req, res) => {
@@ -26,6 +26,7 @@ app.get("/", (req, res) => {
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/course.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
