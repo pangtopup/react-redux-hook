@@ -11,9 +11,15 @@ module.exports = function(app) {
   });
 
   app.get(
-    "/api/user/profile/:id",
+    "/api/users/profile/:id",
     [authJwt.verifyToken],
     userController.userProfile
+  );
+
+  app.get(
+    "/api/users",
+    [authJwt.verifyToken],
+    userController.allUser
   );
 
   // app.get(

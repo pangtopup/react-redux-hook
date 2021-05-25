@@ -15,3 +15,12 @@ exports.userProfile = (req, res) => {
     }
   
 };
+
+exports.allUser = (req, res) => {
+  try {
+    res.status(200).send(Users);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+
+};
