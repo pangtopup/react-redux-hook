@@ -33,8 +33,9 @@ import {
   List,
   ListItem,
   Avatar,
+  Fade,
+  TablePagination,
 } from "@material-ui/core";
-import Fade from "@material-ui/core/Fade";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
@@ -48,7 +49,40 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    ["@media only screen and (max-width: 600px)"]: {
+      "& .MuiTypography-root": {
+        fontSize: 26,
+      },
+    },
+    ["@media only screen and (min-width:600px)"]: {
+      "& .MuiTypography-root": {
+        fontSize: 26,
+      },
+    },
+    ["@media only screen and (min-width:768px)"]: {
+      "& .MuiTypography-root": {
+        fontSize: 34,
+      },
+    },
+    ["@media only screen and (min-width:992px)"]: {},
   },
+  btnAddNew: {
+    ["@media only screen and (max-width: 600px)"]: {
+      display: "none",
+    },
+    ["@media only screen and (min-width:600px)"]: {},
+    ["@media only screen and (min-width:768px)"]: {},
+    ["@media only screen and (min-width:992px)"]: {},
+  },
+  btnIconAddNew: {
+    ["@media only screen and (max-width: 600px)"]: {},
+    ["@media only screen and (min-width:600px)"]: {
+      display: "none",
+    },
+    ["@media only screen and (min-width:768px)"]: {},
+    ["@media only screen and (min-width:992px)"]: {},
+  },
+
   divider: {
     margin: "10px 0",
   },
@@ -70,8 +104,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   avatar: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
+    marginRight: 8,
   },
   wrapName: {
     width: 350,
@@ -104,6 +139,15 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     textTransform: "capitalize",
   },
+  wrapFirstColumn: {
+    display: "flex",
+    alignItems: "center",
+  },
+  textOverFlow: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
   sectionAbout: {
     width: 420,
     display: "flex",
@@ -115,8 +159,17 @@ const useStyles = makeStyles((theme) => ({
   textAbout: {
     fontSize: 14,
   },
-  iconAction:{
-    marginRight: 16
+  iconAction: {
+    marginRight: 16,
+  },
+  smallScreen: {
+    ["@media only screen and (max-width: 600px)"]: {},
+    ["@media only screen and (min-width:600px)"]: {
+    },
+    ["@media only screen and (min-width:768px)"]: {},
+    ["@media only screen and (min-width:992px)"]: {
+      //display: "none",
+    },
   }
 }));
 
@@ -126,6 +179,8 @@ const EmployeesPage = () => {
   const { result: departmentList } = useSelector((state) => state.department);
   const { result: employeeList } = useSelector((state) => state.users);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [filterEmployee, setFilterEmployee] = useState({
     search: "",
     idDepartment: "all",
@@ -139,26 +194,22 @@ const EmployeesPage = () => {
   }, []);
 
   const handleChangeStatusEmployee = (event, newStatus) => {
-    setFilterEmployee({
-      ...filterEmployee,
-      ["status"]: newStatus,
-    });
+    setPage(0);
+    if (newStatus !== null) {
+      setFilterEmployee({
+        ...filterEmployee,
+        ["status"]: newStatus,
+      });
+    }
   };
 
   const handleChangeFilterEmployee = (event) => {
+    setPage(0);
     const name = event.target.name;
     setFilterEmployee({
       ...filterEmployee,
       [name]: event.target.value,
     });
-  };
-
-  const handleClickSearch = () => {
-    console.log("handleClickSearch");
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   const handleClickMenu = (event) => {
@@ -167,6 +218,15 @@ const EmployeesPage = () => {
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const rowsFilter = () => {
@@ -191,10 +251,10 @@ const EmployeesPage = () => {
           if (
             item.firstname
               .toUpperCase()
-              .indexOf(filterEmployee.search.toUpperCase()) > 0 ||
+              .indexOf(filterEmployee.search.toUpperCase()) >= 0 ||
             item.lastname
               .toUpperCase()
-              .indexOf(filterEmployee.search.toUpperCase()) > 0
+              .indexOf(filterEmployee.search.toUpperCase()) >= 0
           )
             return item;
         });
@@ -219,10 +279,15 @@ const EmployeesPage = () => {
     <div className="page">
       <div className={classes.wrapHeader}>
         <HeaderPage textLabel={"รายชื่อพนักงาน"} icon={iconHeader} />
-        <div>
+        <div className={classes.btnAddNew}>
           <Button variant="contained" color="primary" startIcon={<AddIcon />}>
             Create Employee
           </Button>
+        </div>
+        <div className={classes.btnIconAddNew}>
+          <IconButton aria-label="add">
+            <AddIcon />
+          </IconButton>
         </div>
       </div>
       <Divider className={classes.divider} />
@@ -260,12 +325,7 @@ const EmployeesPage = () => {
                 name="search"
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton
-                      aria-label="search"
-                      onClick={handleClickSearch}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
+                    <IconButton aria-label="search" edge="end">
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
@@ -334,142 +394,163 @@ const EmployeesPage = () => {
               {`รายการทั้งหมด (${rowsFilter().length})`}
             </Typography>
             <div>
-              {rowsFilter().map((emp) => (
-                <div key={emp.id}>
-                  <List>
-                    <ListItem>
-                      <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={1}>
-                          <Avatar
-                            alt={emp.username}
-                            src={`${process.env.REACT_APP_URL}image/profile/${emp.image}`}
-                            className={classes.avatar}
-                          />
+              {rowsFilter()
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((emp) => (
+                  <div key={emp.id}>
+                    <List>
+                      <ListItem>
+                        <Grid container spacing={2} alignItems="center">
+                          <Grid item xs={12} md={4}>
+                            <div className={classes.wrapFirstColumn}>
+                              <Avatar
+                                alt={emp.username}
+                                src={`${process.env.REACT_APP_URL}image/profile/${emp.image}`}
+                                className={classes.avatar}
+                              />
+                              <div style={{ width: "80%" }}>
+                                <Typography
+                                  variant="body1"
+                                  className={classes.textName}
+                                >{`${emp.firstname} ${emp.lastname}`}</Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  className={classes.textOverFlow}
+                                >
+                                  {" — "}
+                                  {emp.position}
+                                  {","}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  className={classes.textOverFlow}
+                                  style={{ fontSize: 12 }}
+                                >
+                                  {emp.department}
+                                </Typography>
+                              </div>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12} md={6}>
+                            <Grid container>
+                              <Grid item xs={12} sm={4}>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  className={classes.labelAbout}
+                                >
+                                  Mobile Number:{" "}
+                                </Typography>
+                                <Typography
+                                  variant="body1"
+                                  className={classes.textAbout}
+                                >
+                                  {emp.mobileNumber}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  className={classes.labelAbout}
+                                >
+                                  Email:{" "}
+                                </Typography>
+                                <Typography
+                                  variant="body1"
+                                  className={classes.textAbout}
+                                >
+                                  {emp.email}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  className={classes.labelAbout}
+                                >
+                                  Work Location:{" "}
+                                </Typography>
+                                <Typography
+                                  variant="body1"
+                                  className={classes.textAbout}
+                                >
+                                  {emp.workingLocation}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item xs={12} md={1} className={classes.smallScreen}>
+                            <div
+                              className={clsx(classes.statusTag, {
+                                [classes.statusTagTerminate]:
+                                  emp.status === "terminate",
+                                [classes.statusTagActive]:
+                                  emp.status === "active",
+                              })}
+                            >
+                              <Typography className={classes.statusTagLabel}>
+                                {emp.status}
+                              </Typography>
+                            </div>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            md={1}
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <IconButton
+                              aria-controls="simple-menu"
+                              aria-haspopup="true"
+                              onClick={handleClickMenu}
+                            >
+                              <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                              elevation={0}
+                              id="simple-menu"
+                              anchorEl={anchorEl}
+                              keepMounted
+                              open={Boolean(anchorEl)}
+                              onClose={handleCloseMenu}
+                              TransitionComponent={Fade}
+                            >
+                              <MenuItem onClick={handleCloseMenu}>
+                                <EditOutlinedIcon
+                                  className={classes.iconAction}
+                                />
+                                Edit
+                              </MenuItem>
+                              <MenuItem onClick={handleCloseMenu}>
+                                <DeleteOutlineOutlinedIcon
+                                  className={classes.iconAction}
+                                />{" "}
+                                Delete
+                              </MenuItem>
+                            </Menu>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={2}>
-                          <Typography
-                            variant="body1"
-                            className={classes.textName}
-                          >{`${emp.firstname} ${emp.lastname}`}</Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {emp.position}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={2}>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            className={classes.labelAbout}
-                          >
-                            Department:{" "}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            className={classes.textAbout}
-                          >
-                            {emp.department}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={1}>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            className={classes.labelAbout}
-                          >
-                            Mobile Number:{" "}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            className={classes.textAbout}
-                          >
-                            {emp.mobileNumber}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={2}>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            className={classes.labelAbout}
-                          >
-                            Email:{" "}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            className={classes.textAbout}
-                          >
-                            {emp.email}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={2}>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            className={classes.labelAbout}
-                          >
-                            Work Location:{" "}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            className={classes.textAbout}
-                          >
-                            {emp.workingLocation}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={1}>
-                          <div
-                            className={clsx(classes.statusTag, {
-                              [classes.statusTagTerminate]:
-                                emp.status === "terminate",
-                              [classes.statusTagActive]:
-                                emp.status === "active",
-                            })}
-                          >
-                            <Typography className={classes.statusTagLabel}>
-                              {emp.status}
-                            </Typography>
-                          </div>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          sm={1}
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <IconButton
-                            aria-controls="simple-menu"
-                            aria-haspopup="true"
-                            onClick={handleClickMenu}
-                          >
-                            <MoreVertIcon />
-                          </IconButton>
-                          <Menu
-                            elevation={0}
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleCloseMenu}
-                            TransitionComponent={Fade}
-                          >
-                            <MenuItem onClick={handleCloseMenu}>
-                              <EditOutlinedIcon className={classes.iconAction} />
-                              Edit
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseMenu}>
-                              <DeleteOutlineOutlinedIcon className={classes.iconAction} /> Delete
-                            </MenuItem>
-                          </Menu>
-                        </Grid>
-                      </Grid>
-                    </ListItem>
-                  </List>
-                  <Divider />
-                </div>
-              ))}
+                      </ListItem>
+                    </List>
+                    <Divider />
+                  </div>
+                ))}
             </div>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={rowsFilter().length}
+              page={page}
+              onChangePage={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
           </Fragment>
         )}
       </div>
