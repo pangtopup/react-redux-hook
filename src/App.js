@@ -121,7 +121,7 @@ const DrawerContainer = ({ open }) => {
 
 function App() {
   useStyles();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {

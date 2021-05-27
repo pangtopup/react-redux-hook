@@ -123,6 +123,7 @@ const LoginPage = (props) => {
   const showForm = ({
     values,
     errors,
+    touched,
     handleChange,
     handleSubmit,
     setFieldValue,

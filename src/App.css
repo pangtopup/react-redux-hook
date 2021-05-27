@@ -49,3 +49,7 @@
   color: #c9d1d9;
   height: 100vh;
 }
+
+.MuiTypography-root {
+  color: #212b36
+}
