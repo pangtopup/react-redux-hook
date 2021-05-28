@@ -15,4 +15,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isManager],
     courseController.allCourses
   );
+
+  app.get(
+    "/api/courses/:idCourse",
+    [authJwt.verifyToken, authJwt.isManager],
+    courseController.course
+  );
 };

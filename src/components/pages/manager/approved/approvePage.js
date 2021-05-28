@@ -120,7 +120,7 @@ const ApprovedPage = () => {
             {courseList &&
               courseList.map((value) => (
                 <div>
-                  <CardCourse value={value} tagType={"reject"} />
+                  <CardCourse value={value} tagType={"reject"}  />
                 </div>
               ))}
           </Slider>
