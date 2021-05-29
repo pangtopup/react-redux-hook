@@ -21,7 +21,13 @@ import { getAllCourses } from "./../../../../actions/course";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 24,
+    margin: "auto",
+    ["@media only screen and (max-width: 600px)"]: {},
+    ["@media only screen and (min-width:600px)"]: {},
+    ["@media only screen and (min-width:768px)"]: {},
+    ["@media only screen and (min-width:992px)"]: {
+      maxWidth: 1280,
+    },
   },
   media: {
     height: 0,
@@ -32,7 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
   section: {
     margin: 20,
-    marginBottom: 50
+    marginBottom: 50,
+  },
+  slider: {
+    flexGrow: 1,
   },
 }));
 
@@ -83,47 +92,50 @@ const ApprovedPage = () => {
   }, []);
 
   return (
-    <div className="page">
+    <div className={`page ${classes.root}`}>
       <div className={classes.section}>
         <Typography variant="h4">Waiting Approve</Typography>
         <Divider className={classes.divider} />
-        <Container maxWidth="lg">
-          <Slider {...setting}>
-            {courseList &&
-              courseList.map((value) => (
+        <Container className={classes.slider} maxWidth={false}>
+          {courseList && (
+            <Slider {...setting}>
+              {courseList.map((value) => (
                 <div>
                   <CardCourse value={value} tagType={"wait"} />
                 </div>
               ))}
-          </Slider>
+            </Slider>
+          )}
         </Container>
       </div>
       <div className={classes.section}>
         <Typography variant="h4">Approved</Typography>
         <Divider className={classes.divider} />
         <Container maxWidth="lg">
-          <Slider {...setting}>
-            {courseList &&
-              courseList.map((value) => (
+          {courseList && (
+            <Slider {...setting}>
+              {courseList.map((value) => (
                 <div>
                   <CardCourse value={value} tagType={"approved"} />
                 </div>
               ))}
-          </Slider>
+            </Slider>
+          )}
         </Container>
       </div>
       <div className={classes.section}>
         <Typography variant="h4">Reject</Typography>
         <Divider className={classes.divider} />
         <Container maxWidth="lg">
-          <Slider {...setting}>
-            {courseList &&
-              courseList.map((value) => (
+          {courseList && (
+            <Slider {...setting}>
+              {courseList.map((value) => (
                 <div>
-                  <CardCourse value={value} tagType={"reject"}  />
+                  <CardCourse value={value} tagType={"reject"} />
                 </div>
               ))}
-          </Slider>
+            </Slider>
+          )}
         </Container>
       </div>
     </div>
