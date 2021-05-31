@@ -22,7 +22,7 @@ const ManagerMenu = () => {
   ];
 
   return (
-    <ListMenu dataListMenu={dataListMenu} />
+    <ListMenu dataListMenu={dataListMenu} menuRole={"Manager"} />
   );
 };
 

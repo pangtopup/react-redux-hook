@@ -51,7 +51,7 @@ const AdminMenu = () => {
   ];
 
   return (
-    <ListMenu dataListMenu={dataListMenu} />
+    <ListMenu dataListMenu={dataListMenu} menuRole={"Admin"} />
   );
 };
 

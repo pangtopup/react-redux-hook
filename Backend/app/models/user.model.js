@@ -61,9 +61,9 @@ const Users = [
   },
   {
     id: 4,
-    username: "mandeemc",
+    username: "superuser",
     email: "mandeemc@domain.com",
-    password: "useruser",
+    password: "superuser",
     image: "4.jpg",
     firstname: "Mandeep",
     lastname: "Mccray",
@@ -77,7 +77,7 @@ const Users = [
     company: "Thai Polyethylene Co., Ltd.",
     follower: 9732,
     following: 4356,
-    authorities: ["ROLE_USER"],
+    authorities: ["ROLE_USER", "ROLE_MANAGER", "ROLE_ADMIN"],
   },
   {
     id: 5,

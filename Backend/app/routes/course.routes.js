@@ -12,7 +12,7 @@ module.exports = function (app) {
 
   app.get(
     "/api/courses",
-    [authJwt.verifyToken, authJwt.isManager],
+    [authJwt.verifyToken],
     courseController.allCourses
   );
 
