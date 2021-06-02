@@ -3,7 +3,7 @@ const Users = db.users;
 
 exports.userProfile = (req, res) => {
     try {
-      let result = Users.find((user) => user.id === req.params.id);
+      let result = Users.find((user) => user.id == req.params.id);
   
       if (result) {
         res.status(200).send(result);

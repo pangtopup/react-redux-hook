@@ -37,7 +37,7 @@ import {
   Divider,
 } from "@material-ui/core";
 
-import { getUserProfile } from "./../../../../../actions/user";
+import UserService from "./../../../../../services/user.service";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -176,8 +176,7 @@ const EmployeesCreatePage = (props) => {
 
   useEffect(
     () => () => {
-      
-      loadDataEmployee()
+      loadDataEmployee();
       // Make sure to revoke the data uris to avoid memory leaks
       fileSelected.forEach((file) => URL.revokeObjectURL(file.preview));
     },
@@ -185,44 +184,60 @@ const EmployeesCreatePage = (props) => {
   );
 
   useEffect(() => {
-    dispatch(getUserProfile(props.match.params.id))
-    if (userProfile && props.match.params.id) {
-      var tempUserProfile = {...userProfile}
-      const authorities = {
-        user: tempUserProfile.authorities.indexOf("ROLE_USER") > 0,
-        manager: tempUserProfile.authorities.indexOf("ROLE_MANAGER") > 0,
-        admin: tempUserProfile.authorities.indexOf("ROLE_ADMIN") > 0,
-      };
-      tempUserProfile.status = tempUserProfile.status == "active";
-      tempUserProfile.authorities = authorities;
+    let isCancelled = false;
+    const fetchData = async () => {
+      try {
+        const { data: result } = await UserService.getUserProfile(
+          props.match.params.id
+        );
 
-      convertImgToDataURLviaCanvas(
-        `${process.env.REACT_APP_URL}image/profile/${tempUserProfile.image}`,
-        function (base64_data) {
-          console.log(base64_data);
-          var arr = base64_data.split(",");
-          var mime = arr[0].match(/:(.*?);/)[1];
-          var bstr = atob(arr[1]);
-          var n = bstr.length;
-          var u8arr = new Uint8Array(n);
-          while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-          }
-          var files = [];
-          var f = new Blob([u8arr], { type: mime });
-          const file = {
-            preview: URL.createObjectURL(f),
+        if (!isCancelled && result) {
+          const authorities = {
+            user: result.authorities.indexOf("ROLE_USER") > 0,
+            manager: result.authorities.indexOf("ROLE_MANAGER") > 0,
+            admin: result.authorities.indexOf("ROLE_ADMIN") > 0,
           };
+          result.status = result.status == "active";
+          result.authorities = authorities;
 
-          files.push(file);
-          setFileSelected(files);
+          convertImgToDataURLviaCanvas(
+            `${process.env.REACT_APP_URL}image/profile/${result.image}`,
+            function (base64_data) {
+              console.log(base64_data);
+              var arr = base64_data.split(",");
+              var mime = arr[0].match(/:(.*?);/)[1];
+              var bstr = atob(arr[1]);
+              var n = bstr.length;
+              var u8arr = new Uint8Array(n);
+              while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+              }
+              var files = [];
+              var f = new Blob([u8arr], { type: mime });
+              const file = {
+                preview: URL.createObjectURL(f),
+              };
+
+              files.push(file);
+              setFileSelected(files);
+            }
+          );
+
+          setDataEmployee(result);
         }
-      );
-      
-      setDataEmployee(tempUserProfile);
-    }
-  }, [])
-  
+      } catch (e) {
+        if (!isCancelled) {
+          console.log(e);
+        }
+      }
+    };
+
+    if (props.match.params.id) fetchData();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
@@ -489,9 +504,7 @@ const EmployeesCreatePage = (props) => {
     );
   };
 
-  const loadDataEmployee = () => {
-    
-  }
+  const loadDataEmployee = () => {};
 
   return (
     <div className={`page ${classes.root}`}>
