@@ -20,7 +20,8 @@ import {
   DashboardTwoPage,
   DashboardThreePage,
   SettingPage,
-  EmployeesPage
+  EmployeesPage,
+  EmployeesFormPage,
 } from "./components/pages/admin";
 
 const useStyles = makeStyles((theme) => ({
@@ -141,6 +142,11 @@ const Routers = () => {
           component={DashboardThreePage}
         />
         <AdminRoute exact path="/admin/employees" component={EmployeesPage} />
+        <AdminRoute
+          exact
+          path={["/admin/employees/form", "/admin/employees/form/:id"]}
+          component={EmployeesFormPage}
+        />
         <AdminRoute exact path="/admin/setting" component={SettingPage} />
 
         <Route path="*" component={NotFoundPage} />

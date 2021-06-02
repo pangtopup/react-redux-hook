@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, withRouter, NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -10,6 +11,11 @@ import * as Yup from "yup";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
+
+import HeaderPage from "./../../../shared/header/headerPage";
+
+import iconAddHeader from "./../assets/add-employee.svg";
+import iconEditHeader from "./../assets/edit-employee.svg";
 
 import {
   Paper,
@@ -27,37 +33,25 @@ import {
   Checkbox,
   MenuItem,
   Select,
+  IconButton,
+  Divider,
 } from "@material-ui/core";
-import { Fragment } from "react";
+
+import { getUserProfile } from "./../../../../../actions/user";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 24,
+    padding: 16,
+    marginTop: 50,
   },
   wrapHeader: {
     marginTop: 16,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    ["@media only screen and (max-width: 600px)"]: {
-      "& .MuiTypography-root": {
-        fontSize: 26,
-      },
-    },
-    ["@media only screen and (min-width:600px)"]: {
-      "& .MuiTypography-root": {
-        fontSize: 26,
-      },
-    },
-    ["@media only screen and (min-width:768px)"]: {
-      "& .MuiTypography-root": {
-        fontSize: 34,
-      },
-    },
-    ["@media only screen and (min-width:992px)"]: {},
+  },
+  divider: {
+    margin: "10px 0",
   },
   firstSection: {
-    padding: "64px 24px",
+    padding: "75px 24px",
   },
   secondSection: {
     padding: 24,
@@ -114,15 +108,35 @@ const useStyles = makeStyles((theme) => ({
   },
   placeholderLabel: {
     color: "rgb(255, 255, 255)",
-    
   },
 }));
 
-const EmployeeAddNew = () => {
+var convertImgToDataURLviaCanvas = function (url, callback) {
+  var img = new Image();
+
+  img.crossOrigin = "Anonymous";
+
+  img.onload = function () {
+    var canvas = document.createElement("CANVAS");
+    var ctx = canvas.getContext("2d");
+    var dataURL;
+    canvas.height = this.height;
+    canvas.width = this.width;
+    ctx.drawImage(this, 0, 0);
+    dataURL = canvas.toDataURL();
+    callback(dataURL);
+    canvas = null;
+  };
+
+  img.src = url;
+};
+
+const EmployeesCreatePage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const formRef = useRef();
   const { result: departmentList } = useSelector((state) => state.department);
+  const { result: userProfile } = useSelector((state) => state.userProfile);
   const [fileSelected, setFileSelected] = useState([]);
   const [check, setCheck] = useState(true);
 
@@ -162,11 +176,53 @@ const EmployeeAddNew = () => {
 
   useEffect(
     () => () => {
+      
+      loadDataEmployee()
       // Make sure to revoke the data uris to avoid memory leaks
       fileSelected.forEach((file) => URL.revokeObjectURL(file.preview));
     },
     [fileSelected]
   );
+
+  useEffect(() => {
+    dispatch(getUserProfile(props.match.params.id))
+    if (userProfile && props.match.params.id) {
+      var tempUserProfile = {...userProfile}
+      const authorities = {
+        user: tempUserProfile.authorities.indexOf("ROLE_USER") > 0,
+        manager: tempUserProfile.authorities.indexOf("ROLE_MANAGER") > 0,
+        admin: tempUserProfile.authorities.indexOf("ROLE_ADMIN") > 0,
+      };
+      tempUserProfile.status = tempUserProfile.status == "active";
+      tempUserProfile.authorities = authorities;
+
+      convertImgToDataURLviaCanvas(
+        `${process.env.REACT_APP_URL}image/profile/${tempUserProfile.image}`,
+        function (base64_data) {
+          console.log(base64_data);
+          var arr = base64_data.split(",");
+          var mime = arr[0].match(/:(.*?);/)[1];
+          var bstr = atob(arr[1]);
+          var n = bstr.length;
+          var u8arr = new Uint8Array(n);
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+          var files = [];
+          var f = new Blob([u8arr], { type: mime });
+          const file = {
+            preview: URL.createObjectURL(f),
+          };
+
+          files.push(file);
+          setFileSelected(files);
+        }
+      );
+      
+      setDataEmployee(tempUserProfile);
+    }
+  }, [])
+  
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
@@ -395,7 +451,7 @@ const EmployeeAddNew = () => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={dataEmployee.authorities.mananger}
+                        checked={dataEmployee.authorities.manager}
                         onChange={handleChangeRole}
                         name="manager"
                       />
@@ -425,7 +481,6 @@ const EmployeeAddNew = () => {
             className={classes.buttonSave}
             startIcon={<SaveIcon />}
             onClick={handleClickSave}
-            s
           >
             Create New Employee
           </Button>
@@ -434,8 +489,20 @@ const EmployeeAddNew = () => {
     );
   };
 
+  const loadDataEmployee = () => {
+    
+  }
+
   return (
-    <div className={classes.root}>
+    <div className={`page ${classes.root}`}>
+      <div className={classes.wrapHeader}>
+        {props.match.params.id ? (
+          <HeaderPage textLabel={"แก้ไขข้อมูล"} icon={iconEditHeader} />
+        ) : (
+          <HeaderPage textLabel={"เพิ่มพนักงานใหม่"} icon={iconAddHeader} />
+        )}
+      </div>
+      <Divider className={classes.divider} />
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={4}>
           <Paper elevation={3} className={classes.firstSection}>
@@ -447,13 +514,16 @@ const EmployeeAddNew = () => {
                   <Fragment>{thumbs}</Fragment>
                   <div
                     className={`placeholder ${classes.placeholder} ${
-                      fileSelected.length != 0 && classes.placeholderImageProfile
+                      fileSelected.length != 0 &&
+                      classes.placeholderImageProfile
                     }`}
                   >
                     <AddAPhotoIcon />
                     <Typography
-                      style={{ marginTop: 8, backgroundColor:"transparent" }}
-                      className={fileSelected != 0 && classes.placeholderLabel}
+                      style={{ marginTop: 8, backgroundColor: "transparent" }}
+                      className={`${
+                        fileSelected != 0 && classes.placeholderLabel
+                      }`}
                       variant="body2"
                     >
                       Upload Photo
@@ -504,16 +574,19 @@ const EmployeeAddNew = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={8}>
           <Paper elevation={3} className={classes.secondSection}>
-            <Formik
-              innerRef={formRef}
-              onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-              }}
-              initialValues={dataEmployee}
-              validationSchema={validationSchema}
-            >
-              {(props) => showForm(props)}
-            </Formik>
+            {dataEmployee && (
+              <Formik
+                enableReinitialize
+                innerRef={formRef}
+                onSubmit={(values, { setSubmitting }) => {
+                  console.log(values);
+                }}
+                initialValues={dataEmployee}
+                validationSchema={validationSchema}
+              >
+                {(props) => showForm(props)}
+              </Formik>
+            )}
           </Paper>
         </Grid>
       </Grid>
@@ -521,4 +594,4 @@ const EmployeeAddNew = () => {
   );
 };
 
-export default EmployeeAddNew;
+export default EmployeesCreatePage;

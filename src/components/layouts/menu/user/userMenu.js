@@ -15,7 +15,7 @@ const UserMenu = () => {
   ];
 
   return (
-    <ListMenu dataListMenu={dataListMenu} />
+    <ListMenu key="user" dataListMenu={dataListMenu} />
   );
 };
 

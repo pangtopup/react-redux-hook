@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -175,6 +176,7 @@ const EmployeeList = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selectedEmployee, setselectedEmployee] = useState(0);
   const [filterEmployee, setFilterEmployee] = useState({
     search: "",
     idDepartment: "all",
@@ -391,7 +393,7 @@ const EmployeeList = () => {
                                 <Typography
                                   variant="body1"
                                   className={classes.textName}
-                                >{`${emp.firstname} ${emp.lastname}`}</Typography>
+                                >{`${emp.id} ${emp.firstname} ${emp.lastname}`}</Typography>
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
@@ -492,7 +494,10 @@ const EmployeeList = () => {
                             <IconButton
                               aria-controls="simple-menu"
                               aria-haspopup="true"
-                              onClick={handleClickMenu}
+                              onClick={(event) => {
+                                setselectedEmployee(emp.id);
+                                handleClickMenu(event);
+                              }}
                             >
                               <MoreVertIcon />
                             </IconButton>
@@ -505,7 +510,11 @@ const EmployeeList = () => {
                               onClose={handleCloseMenu}
                               TransitionComponent={Fade}
                             >
-                              <MenuItem onClick={handleCloseMenu}>
+                              <MenuItem
+                                onClick={handleCloseMenu}
+                                component={NavLink}
+                                to={`/admin/employees/form/${selectedEmployee}`}
+                              >
                                 <EditOutlinedIcon
                                   className={classes.iconAction}
                                 />
