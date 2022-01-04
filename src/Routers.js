@@ -1,8 +1,8 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 
 import Login from "./components/pages/LoginPage";
 import { UnauthorizedPage, NotFoundPage } from "./components/pages/error";

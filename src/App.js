@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 
@@ -11,8 +11,8 @@ import {
 } from "react-router-dom";
 import { Header, AdminMenu, ManagerMenu, UserMenu } from "./components/layouts";
 import Routers from "./Routers"
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
+import Drawer from "@mui/material/Drawer";
+import Divider from "@mui/material/Divider";
 
 const useStyles = makeStyles((theme) => ({
   '@global': {

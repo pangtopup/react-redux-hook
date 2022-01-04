@@ -1,12 +1,12 @@
 import React from "react";
 import ListMenu from "../../../pages/shared/listMenu";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import PeopleIcon from '@material-ui/icons/People';
-import SettingsIcon from "@material-ui/icons/Settings";
-import Filter1Icon from "@material-ui/icons/Filter1";
-import Filter2Icon from "@material-ui/icons/Filter2";
-import Filter3Icon from "@material-ui/icons/Filter3";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PeopleIcon from '@mui/icons-material/People';
+import SettingsIcon from "@mui/icons-material/Settings";
+import Filter1Icon from "@mui/icons-material/Filter1";
+import Filter2Icon from "@mui/icons-material/Filter2";
+import Filter3Icon from "@mui/icons-material/Filter3";
 
 const AdminMenu = () => {
   const dataListMenu = [

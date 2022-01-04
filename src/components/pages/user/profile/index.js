@@ -1,18 +1,18 @@
 import React, { useEffect, Fragment } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
-import Avatar from "@material-ui/core/Avatar";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import Skeleton from "@material-ui/lab/Skeleton";
+import Avatar from "@mui/material/Avatar";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Skeleton from '@mui/material/Skeleton';
 
-import BusinessCenterOutlinedIcon from "@material-ui/icons/BusinessCenterOutlined";
-import AlternateEmailOutlinedIcon from "@material-ui/icons/AlternateEmailOutlined";
-import PhoneIphoneOutlinedIcon from "@material-ui/icons/PhoneIphoneOutlined";
-import PersonPinCircleOutlinedIcon from "@material-ui/icons/PersonPinCircleOutlined";
+import BusinessCenterOutlinedIcon from "@mui/icons-material/BusinessCenterOutlined";
+import AlternateEmailOutlinedIcon from "@mui/icons-material/AlternateEmailOutlined";
+import PhoneIphoneOutlinedIcon from "@mui/icons-material/PhoneIphoneOutlined";
+import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
 
 import { getUserProfile } from "../../../../actions/user";
 import Utils from "../../../../utils";
@@ -258,7 +258,7 @@ const ProfilePage = () => {
       ) : (
         <Fragment>
           <div className={classes.sectionOne}>
-            <Skeleton variant="circle" width={200} height={200} />
+            <Skeleton variant="circular" width={200} height={200} />
           </div>
           <div className={classes.sectionTwoSkeleton}>
             <Skeleton width="100%" />

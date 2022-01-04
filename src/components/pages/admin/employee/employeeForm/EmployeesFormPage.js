@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter, NavLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from "clsx";
 
 import { useDropzone } from "react-dropzone";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
-import AddIcon from "@material-ui/icons/Add";
-import SaveIcon from "@material-ui/icons/Save";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
 
 import HeaderPage from "./../../../shared/header/headerPage";
 
@@ -35,7 +35,7 @@ import {
   Select,
   IconButton,
   Divider,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import UserService from "./../../../../../services/user.service";
 

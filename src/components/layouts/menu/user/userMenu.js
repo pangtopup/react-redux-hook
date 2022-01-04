@@ -1,7 +1,7 @@
 import React from "react";
 import ListMenu from "../../../pages/shared/listMenu";
 
-import PersonIcon from "@material-ui/icons/Person";
+import PersonIcon from "@mui/icons-material/Person";
 
 const UserMenu = () => {
 
