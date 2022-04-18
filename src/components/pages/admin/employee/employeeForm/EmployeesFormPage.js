@@ -378,7 +378,6 @@ const EmployeesCreatePage = (props) => {
                 id="mobileNumber"
                 name="mobileNumber"
                 label="Mobile Number"
-                value={dataEmployee.mobileNumber}
                 variant="outlined"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -458,7 +457,6 @@ const EmployeesCreatePage = (props) => {
                         checked={dataEmployee.authorities.user}
                         onChange={handleChangeRole}
                         name="user"
-                        checked
                       />
                     }
                     label="User"

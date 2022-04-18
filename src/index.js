@@ -10,8 +10,8 @@ import { ThemeProvider, StyledEngineProvider, createTheme, adaptV4Theme } from "
 const theme = createTheme(adaptV4Theme({
   typography: {
     fontFamily: [
-      "Roboto",
-      "Kanit",
+      "Poppins",
+      "Prompt",
       '"Helvetica Neue"',
       "Arial",
       "sans-serif",

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -32,60 +33,15 @@ import {
   Fade,
   TablePagination,
 } from "@mui/material";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import { getAllUsers } from "./../../../../actions/user";
 import { Fragment } from "react";
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  wrapHeader: {
-    marginTop: 16,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    ["@media only screen and (max-width: 600px)"]: {
-      "& .MuiTypography-root": {
-        fontSize: 26,
-      },
-    },
-    ["@media only screen and (min-width:600px)"]: {
-      "& .MuiTypography-root": {
-        fontSize: 26,
-      },
-    },
-    ["@media only screen and (min-width:768px)"]: {
-      "& .MuiTypography-root": {
-        fontSize: 34,
-      },
-    },
-    ["@media only screen and (min-width:992px)"]: {},
-  },
-  btnAddNew: {
-    ["@media only screen and (max-width: 600px)"]: {
-      display: "none",
-    },
-    ["@media only screen and (min-width:600px)"]: {},
-    ["@media only screen and (min-width:768px)"]: {},
-    ["@media only screen and (min-width:992px)"]: {},
-  },
-  btnIconAddNew: {
-    ["@media only screen and (max-width: 600px)"]: {},
-    ["@media only screen and (min-width:600px)"]: {
-      display: "none",
-    },
-    ["@media only screen and (min-width:768px)"]: {},
-    ["@media only screen and (min-width:992px)"]: {},
-  },
-
-  divider: {
-    margin: "10px 0",
-  },
-  wrapFilterStatusEmployee: {
-    marginTop: 16,
-  },
-  btnFilterStatusEmployee: {
+const StyledWrapFilterStatusEmployee = styled("div")({
+  marginTop: 16,
+  "& .btn-filter-status-employee": {
     "& button": {
       borderRadius: 0,
     },
@@ -93,83 +49,79 @@ const useStyles = makeStyles((theme) => ({
       border: "none",
     },
   },
-  wrapFilter: {
-    margin: "16px 0",
-  },
-  formControl: {
+});
+
+const StyledrapFilter = styled("div")({
+  margin: "16px 0",
+  "& .formControl": {
     width: "100%",
   },
-  avatar: {
+});
+
+const StyledDivider = styled(Divider)({
+  margin: "10px 0",
+});
+
+const StyledWrapFirstColumn = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  "& .avatar": {
     width: 60,
     height: 60,
     marginRight: 8,
   },
-  wrapName: {
-    width: 350,
-  },
-  textName: {
+  "& .textName": {
     fontSize: 18,
   },
-  textPosition: {},
-  statusTag: {
-    height: 22,
-    minWidth: 22,
-    borderRadius: 8,
-    alignItems: "center",
-    whiteSpace: "nowrap",
-    display: "inline-flex",
-    justifyContent: "center",
-    padding: "0px 8px",
-  },
-  statusTagActive: {
-    color: "rgb(34, 154, 22)",
-    backgroundColor: "rgba(84, 214, 44, 0.16)",
-  },
-  statusTagTerminate: {
-    color: "rgb(183, 33, 54)",
-    backgroundColor: "rgba(255, 72, 66, 0.16)",
-  },
-  statusTagLabel: {
-    lineHeight: 0,
-    fontWeight: 700,
-    fontSize: 14,
-    textTransform: "capitalize",
-  },
-  wrapFirstColumn: {
-    display: "flex",
-    alignItems: "center",
-  },
-  textOverFlow: {
+  "& .textOverFlow": {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
-  sectionAbout: {
-    width: 420,
-    display: "flex",
-    justifyContent: "space-around",
-  },
-  labelAbout: {
+});
+
+const StyledListItem = styled(ListItem)({
+  "& .labelAbout": {
     fontSize: 12,
   },
-  textAbout: {
+  "& .textAbout": {
     fontSize: 14,
   },
-  iconAction: {
+  "& .iconAction": {
     marginRight: 16,
   },
-  smallScreen: {
-    ["@media only screen and (max-width: 600px)"]: {},
-    ["@media only screen and (min-width:600px)"]: {},
-    ["@media only screen and (min-width:768px)"]: {},
-    ["@media only screen and (min-width:992px)"]: {
-      //display: "none",
+});
+
+const StyledStatusTag = styled("div")({
+  height: 22,
+  minWidth: 22,
+  borderRadius: 8,
+  alignItems: "center",
+  whiteSpace: "nowrap",
+  display: "inline-flex",
+  justifyContent: "center",
+  padding: "0px 8px",
+  "& .statusTagLabel": {
+    lineHeight: 0,
+    fontWeight: 700,
+    fontSize: 14,
+    textTransform: "capitalize",
+    "&.statusTagActive,": {
+      color: "rgb(34, 154, 22)",
+    },
+    "&.statusTagTerminate": {
+      color: "rgb(183, 33, 54)",
     },
   },
-}));
+  "&.statusTagActive,": {
+    backgroundColor: "rgba(84, 214, 44, 0.16)",
+  },
+  "&.statusTagTerminate": {
+    backgroundColor: "rgba(255, 72, 66, 0.16)",
+  },
+});
 
 const EmployeeList = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { result: departmentList } = useSelector((state) => state.department);
   const { result: employeeList } = useSelector((state) => state.users);
@@ -272,14 +224,14 @@ const EmployeeList = () => {
   };
   return (
     <div>
-      <div className={classes.wrapFilterStatusEmployee}>
+      <StyledWrapFilterStatusEmployee>
         <ToggleButtonGroup
           value={filterEmployee.status}
           exclusive
           onChange={handleChangeStatusEmployee}
           aria-label="filter employee"
           size="small"
-          className={classes.btnFilterStatusEmployee}
+          className={`btn-filter-status-employee`}
         >
           <ToggleButton value="all" aria-label="all" size="small">
             All Users
@@ -291,11 +243,11 @@ const EmployeeList = () => {
             Terminate Users
           </ToggleButton>
         </ToggleButtonGroup>
-      </div>
-      <div className={classes.wrapFilter}>
+      </StyledWrapFilterStatusEmployee>
+      <StyledrapFilter>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            <FormControl className={classes.formControl} variant="outlined">
+            <FormControl className={`formControl`} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-search">
                 ค้นหาพนักงาน
               </InputLabel>
@@ -320,7 +272,7 @@ const EmployeeList = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <FormControl variant="outlined" className={classes.formControl}>
+            <FormControl variant="outlined" className={`formControl`}>
               <InputLabel id="demo-simple-select-outlined-label">
                 หน่วยงาน
               </InputLabel>
@@ -345,7 +297,7 @@ const EmployeeList = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <FormControl variant="outlined" className={classes.formControl}>
+            <FormControl variant="outlined" className={`formControl`}>
               <InputLabel id="demo-simple-select-outlined-label">
                 สถานที่ทำงาน
               </InputLabel>
@@ -367,7 +319,7 @@ const EmployeeList = () => {
             </FormControl>
           </Grid>
         </Grid>
-      </div>
+      </StyledrapFilter>
       <div>
         {employeeList && (
           <Fragment>
@@ -380,24 +332,24 @@ const EmployeeList = () => {
                 .map((emp) => (
                   <div key={emp.id}>
                     <List>
-                      <ListItem>
+                      <StyledListItem>
                         <Grid container spacing={2} alignItems="center">
                           <Grid item xs={12} md={4}>
-                            <div className={classes.wrapFirstColumn}>
+                            <StyledWrapFirstColumn>
                               <Avatar
                                 alt={emp.username}
                                 src={`${process.env.REACT_APP_URL}image/profile/${emp.image}`}
-                                className={classes.avatar}
+                                className={`avatar`}
                               />
                               <div style={{ width: "80%" }}>
                                 <Typography
                                   variant="body1"
-                                  className={classes.textName}
+                                  className={`textName`}
                                 >{`${emp.id} ${emp.firstname} ${emp.lastname}`}</Typography>
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
-                                  className={classes.textOverFlow}
+                                  className={`textOverFlow`}
                                 >
                                   {" — "}
                                   {emp.position}
@@ -406,13 +358,13 @@ const EmployeeList = () => {
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
-                                  className={classes.textOverFlow}
+                                  className={`textOverFlow`}
                                   style={{ fontSize: 12 }}
                                 >
                                   {emp.department}
                                 </Typography>
                               </div>
-                            </div>
+                            </StyledWrapFirstColumn>
                           </Grid>
                           <Grid item xs={12} md={6}>
                             <Grid container>
@@ -420,13 +372,13 @@ const EmployeeList = () => {
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
-                                  className={classes.labelAbout}
+                                  className={`labelAbout`}
                                 >
                                   Mobile Number:{" "}
                                 </Typography>
                                 <Typography
                                   variant="body1"
-                                  className={classes.textAbout}
+                                  className={`textAbout`}
                                 >
                                   {emp.mobileNumber}
                                 </Typography>
@@ -435,13 +387,13 @@ const EmployeeList = () => {
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
-                                  className={classes.labelAbout}
+                                  className={`labelAbout`}
                                 >
                                   Email:{" "}
                                 </Typography>
                                 <Typography
                                   variant="body1"
-                                  className={classes.textAbout}
+                                  className={`textAbout`}
                                 >
                                   {emp.email}
                                 </Typography>
@@ -450,37 +402,37 @@ const EmployeeList = () => {
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
-                                  className={classes.labelAbout}
+                                  className={`labelAbout`}
                                 >
                                   Work Location:{" "}
                                 </Typography>
                                 <Typography
                                   variant="body1"
-                                  className={classes.textAbout}
+                                  className={`textAbout`}
                                 >
                                   {emp.workingLocation}
                                 </Typography>
                               </Grid>
                             </Grid>
                           </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            md={1}
-                            className={classes.smallScreen}
-                          >
-                            <div
-                              className={clsx(classes.statusTag, {
-                                [classes.statusTagTerminate]:
+                          <Grid item xs={12} md={1}>
+                            <StyledStatusTag
+                              className={clsx({
+                                [`statusTagTerminate`]:
                                   emp.status === "terminate",
-                                [classes.statusTagActive]:
-                                  emp.status === "active",
+                                [`statusTagActive`]: emp.status === "active",
                               })}
                             >
-                              <Typography className={classes.statusTagLabel}>
+                              <Typography
+                                className={clsx(`statusTagLabel`, {
+                                  [`statusTagTerminate`]:
+                                    emp.status === "terminate",
+                                  [`statusTagActive`]: emp.status === "active",
+                                })}
+                              >
                                 {emp.status}
                               </Typography>
-                            </div>
+                            </StyledStatusTag>
                           </Grid>
                           <Grid
                             item
@@ -498,7 +450,8 @@ const EmployeeList = () => {
                                 setselectedEmployee(emp.id);
                                 handleClickMenu(event);
                               }}
-                              size="large">
+                              size="large"
+                            >
                               <MoreVertIcon />
                             </IconButton>
                             <Menu
@@ -515,23 +468,21 @@ const EmployeeList = () => {
                                 component={NavLink}
                                 to={`/admin/employees/form/${selectedEmployee}`}
                               >
-                                <EditOutlinedIcon
-                                  className={classes.iconAction}
-                                />
+                                <EditOutlinedIcon className={`iconAction`} />
                                 Edit
                               </MenuItem>
                               <MenuItem onClick={handleCloseMenu}>
                                 <DeleteOutlineOutlinedIcon
-                                  className={classes.iconAction}
+                                  className={`iconAction`}
                                 />{" "}
                                 Delete
                               </MenuItem>
                             </Menu>
                           </Grid>
                         </Grid>
-                      </ListItem>
+                      </StyledListItem>
                     </List>
-                    <Divider />
+                    <StyledDivider />
                   </div>
                 ))}
             </div>
