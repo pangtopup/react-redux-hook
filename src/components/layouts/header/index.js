@@ -1,17 +1,17 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { Link, withRouter, NavLink } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import Avatar from '@material-ui/core/Avatar';
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import Avatar from '@mui/material/Avatar';
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -142,7 +142,7 @@ const Header = (props) => {
             className={clsx(classes.menuButton, {
               [classes.hide]: props.open && classes.hide,
             })}
-          >
+            size="large">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
@@ -157,7 +157,7 @@ const Header = (props) => {
               color="inherit"
               component={NavLink}
               to="/notification"
-            >
+              size="large">
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
@@ -169,7 +169,7 @@ const Header = (props) => {
               aria-haspopup="true"
               color="inherit"
               onClick={(event) => setAnchorEl(event.currentTarget)}
-            >
+              size="large">
               <Avatar alt={currentUser.username} src={`${process.env.REACT_APP_URL}image/profile/${currentUser.image}`} />
             </IconButton>
           </div>

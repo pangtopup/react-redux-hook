@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 
 import HeaderPage from "./../../shared/header/headerPage";
 
@@ -15,9 +15,9 @@ import EmployeeList from "./employeeList";
 
 import "./index.css";
 
-import { Typography, Button, Divider, IconButton } from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { Typography, Button, Divider, IconButton } from "@mui/material";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import { getAllUsers } from "./../../../../actions/user";
 import { Fragment } from "react";
@@ -192,7 +192,7 @@ const EmployeesPage = (props) => {
             </Button>
           </div>
           <div className={classes.btnIconAddNew}>
-            <IconButton aria-label="add">
+            <IconButton aria-label="add" size="large">
               <AddIcon />
             </IconButton>
           </div>

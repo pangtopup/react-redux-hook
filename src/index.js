@@ -5,9 +5,9 @@ import store from "./store";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, StyledEngineProvider, createTheme, adaptV4Theme } from "@mui/material/styles";
 
-const theme = createMuiTheme({
+const theme = createTheme(adaptV4Theme({
   typography: {
     fontFamily: [
       "Roboto",
@@ -20,13 +20,15 @@ const theme = createMuiTheme({
       '"Segoe UI Symbol"',
     ].join(","),
   },
-});
+}));
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </StyledEngineProvider>
   </Provider>,
   document.getElementById("root")
 );

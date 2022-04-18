@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from "clsx";
 
-import SearchIcon from "@material-ui/icons/Search";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import SearchIcon from "@mui/icons-material/Search";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 import "./index.css";
 
@@ -31,9 +31,9 @@ import {
   Avatar,
   Fade,
   TablePagination,
-} from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+} from "@mui/material";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import { getAllUsers } from "./../../../../actions/user";
 import { Fragment } from "react";
@@ -306,7 +306,7 @@ const EmployeeList = () => {
                 name="search"
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton aria-label="search" edge="end">
+                    <IconButton aria-label="search" edge="end" size="large">
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
@@ -498,7 +498,7 @@ const EmployeeList = () => {
                                 setselectedEmployee(emp.id);
                                 handleClickMenu(event);
                               }}
-                            >
+                              size="large">
                               <MoreVertIcon />
                             </IconButton>
                             <Menu
@@ -540,9 +540,9 @@ const EmployeeList = () => {
               component="div"
               count={rowsFilter().length}
               page={page}
-              onChangePage={handleChangePage}
+              onPageChange={handleChangePage}
               rowsPerPage={rowsPerPage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Fragment>
         )}

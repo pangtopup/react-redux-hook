@@ -1,8 +1,8 @@
 import React from "react";
 import ListMenu from "../../../pages/shared/listMenu";
 
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 
 const ManagerMenu = () => {
