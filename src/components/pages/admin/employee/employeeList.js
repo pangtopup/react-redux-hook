@@ -345,10 +345,9 @@ const EmployeeList = () => {
                                 <Typography
                                   variant="body1"
                                   className={`textName`}
-                                >{`${emp.id} ${emp.firstname} ${emp.lastname}`}</Typography>
+                                >{`${emp.firstname} ${emp.lastname}`}</Typography>
                                 <Typography
                                   variant="body2"
-                                  color="textSecondary"
                                   className={`textOverFlow`}
                                 >
                                   {" — "}
@@ -357,7 +356,7 @@ const EmployeeList = () => {
                                 </Typography>
                                 <Typography
                                   variant="body2"
-                                  color="textSecondary"
+                                  color="text.secondary"
                                   className={`textOverFlow`}
                                   style={{ fontSize: 12 }}
                                 >
@@ -371,7 +370,7 @@ const EmployeeList = () => {
                               <Grid item xs={12} sm={4}>
                                 <Typography
                                   variant="body2"
-                                  color="textSecondary"
+                                  color="text.secondary"
                                   className={`labelAbout`}
                                 >
                                   Mobile Number:{" "}
@@ -386,7 +385,7 @@ const EmployeeList = () => {
                               <Grid item xs={12} sm={4}>
                                 <Typography
                                   variant="body2"
-                                  color="textSecondary"
+                                  color="text.secondary"
                                   className={`labelAbout`}
                                 >
                                   Email:{" "}
@@ -401,7 +400,7 @@ const EmployeeList = () => {
                               <Grid item xs={12} sm={4}>
                                 <Typography
                                   variant="body2"
-                                  color="textSecondary"
+                                  color="text.secondary"
                                   className={`labelAbout`}
                                 >
                                   Work Location:{" "}
