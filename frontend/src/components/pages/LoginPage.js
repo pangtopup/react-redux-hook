@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import {
   Card,
   CardContent,
@@ -20,6 +20,9 @@ import { red } from "@mui/material/colors";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+import CardStyle from "./shared/general/Card";
+import TextFieldTheme from "./shared/general/TextFieldTheme";
 
 import { login } from "../../actions/auth";
 
@@ -86,30 +89,27 @@ const PasswordField = ({ isSubmitting, values, handleChange, error }) => {
     event.preventDefault();
   };
   return (
-    <FormControl variant="outlined" style={{ width: "100%", marginTop: 8 }} error={error} fullWidth margin="normal">
-      <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-      <OutlinedInput
-        disabled={isSubmitting}
-        label="Password"
-        name="password"
-        id="password"
-        type={showPassword ? "text" : "password"}
-        value={values.password}
-        onChange={handleChange}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-              size="large">
-              {values.showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
-      />
-    </FormControl>
+    <TextFieldTheme
+      label="Password"
+      name="password"
+      id="password"
+      type={showPassword ? "text" : "password"}
+      value={values.password}
+      onChange={handleChange}
+      endAdornment={
+        <InputAdornment position="end">
+          <IconButton
+            aria-label="toggle password visibility"
+            onClick={handleClickShowPassword}
+            onMouseDown={handleMouseDownPassword}
+            edge="end"
+            size="large"
+          >
+            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </InputAdornment>
+      }
+    />
   );
 };
 
@@ -134,7 +134,7 @@ const LoginPage = (props) => {
   }) => {
     return (
       <form onSubmit={handleSubmit}>
-        <TextField
+        <TextFieldTheme
           variant="outlined"
           margin="normal"
           fullWidth
@@ -144,11 +144,15 @@ const LoginPage = (props) => {
           onChange={handleChange}
           value={values.username}
           autoFocus
-          error={errors.username} 
+          error={errors.username}
           disabled={isSubmitting}
-        ></TextField>
-        
-        {errors.username && <Typography style={{ color:"#f44336" }} >{errors.username}</Typography>}
+        ></TextFieldTheme>
+
+        {errors.username && (
+          <Typography style={{ color: "#f44336" }}>
+            {errors.username}
+          </Typography>
+        )}
         <PasswordField
           isSubmitting={isSubmitting}
           values={values}
@@ -156,7 +160,11 @@ const LoginPage = (props) => {
           name="password"
           error={errors.password}
         ></PasswordField>
-        {errors.password && <Typography style={{ color:"#f44336" }} >{errors.password}</Typography>}
+        {errors.password && (
+          <Typography style={{ color: "#f44336" }}>
+            {errors.password}
+          </Typography>
+        )}
         <LoginButton
           type="submit"
           fullWidth
@@ -177,7 +185,7 @@ const LoginPage = (props) => {
 
   return (
     <div className={classes.root}>
-      <Card className={classes.rootCard}>
+      <CardStyle>
         <CardMedia
           className={classes.media}
           image={`${process.env.PUBLIC_URL}/assets/LOGO SCG.png`}
@@ -201,7 +209,7 @@ const LoginPage = (props) => {
             {(props) => showForm(props)}
           </Formik>
         </CardContent>
-      </Card>
+      </CardStyle>
     </div>
   );
 };
